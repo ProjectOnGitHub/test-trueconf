@@ -67,7 +67,8 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              additionalData: '@import "./src/assets/scss/_mixins.scss";'
+              additionalData: `@import "./src/assets/scss/_mixins.scss";
+              @import "./src/assets/scss/_variables.scss";`
             }
           }
         ]
