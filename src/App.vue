@@ -14,7 +14,7 @@
           ></li>
           <div
             class="elevator"
-            style="bottom: 0"
+            :style="elevatorMove"
           ></div>
         </ul>
       </div>
@@ -28,7 +28,10 @@
             <span class="floor__number">
               {{ floor }}
             </span>
-            <button class="floor__button">
+            <button
+              class="floor__button"
+              @click="clickButton(floor)"
+            >
               <span class="floor__button-indicator"></span>
             </button>
           </div>
@@ -43,12 +46,38 @@ export default {
   data() {
     return {
       numberOfFloors: 5,
-      numberOfShafts: 1
+      numberOfShafts: 1,
+      startFloor: 1,
+      pathOfElevator: [],
+      step: 0
     };
   },
   computed: {
     floors() {
-      return Array.from({ length: this.numberOfFloors }, (_, index) => index + 1).reverse();
+      return Array.from({ length: this.numberOfFloors }, (_, index) => index + 1);
+    },
+    elevatorMove() {
+      return {
+        bottom: `${this.step * this.stepSize}%`
+      };
+    },
+    postiton() {
+      return this.step * this.stepSize - this.stepSize;
+    },
+    stepSize() {
+      return `${100 / this.numberOfFloors}`;
+    }
+  },
+  created() {
+    this.pathOfElevator.push(this.startFloor);
+  },
+  methods: {
+    clickButton(floor) {
+      if (!this.pathOfElevator.includes(floor)) {
+        this.pathOfElevator.push(floor);
+        this.startFloor = floor;
+        this.step = floor - 1;
+      }
     }
   }
 };
@@ -71,8 +100,9 @@ export default {
   @include flexible(100%);
   gap: 15px;
   &__shaft {
-    @include gridable(100%);
+    @include flexible(100%);
     @include unmarkedList;
+    flex-direction: column-reverse;
     border-left: 1px solid $borderColor;
     border-right: 1px solid $borderColor;
     position: relative;
@@ -81,7 +111,7 @@ export default {
       width: $shaftWidth;
       box-sizing: border-box;
       border-bottom: 1px solid $borderColor;
-      &:last-child {
+      &:first-child {
         border-bottom: none;
       }
     }
@@ -93,11 +123,11 @@ export default {
   height: $floorHeight;
   position: absolute;
   background-color: $elevatorColor;
-  transition: 1s ease-in-out;
 }
 
 .floors {
-  @include gridable(100%);
+  @include flexible(100%);
+  flex-direction: column-reverse;
   @include unmarkedList;
   @include floorHeigth;
   box-sizing: border-box;
@@ -110,7 +140,7 @@ export default {
   box-sizing: border-box;
   border-bottom: 1px solid $borderColor;
   padding-left: 10px;
-  &:last-child {
+  &:first-child {
     border-bottom: none;
   }
   &__container {
