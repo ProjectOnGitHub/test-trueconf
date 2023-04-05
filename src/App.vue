@@ -15,7 +15,12 @@
           <div
             class="elevator"
             :style="elevatorMove"
-          ></div>
+            @transitionstart="onTransitionStart"
+            @transitionend="onTransitionEnd"
+          >
+            {{ startFloor }}
+            {{ stateOfElevator }}
+          </div>
         </ul>
       </div>
       <ul class="floors">
@@ -50,7 +55,8 @@ export default {
       startFloor: 1,
       pathOfElevator: [],
       step: 0,
-      duration: 1
+      duration: null,
+      stateOfElevator: 'ready'
     };
   },
   computed: {
@@ -69,21 +75,33 @@ export default {
   },
   watch: {
     pathOfElevator() {
-      this.pathOfElevator.forEach((currentFloor, i, array) => {
-        this.startFloor = currentFloor;
-        this.step = currentFloor - 1;
-        this.duration = Math.abs(this.startFloor - array[i - 1]);
-      });
+      if (this.stateOfElevator === 'ready') {
+        this.pathOfElevator.forEach((currentFloor, i, array) => {
+          this.startFloor = currentFloor;
+          this.step = currentFloor - 1;
+          this.duration = Math.abs(this.startFloor - array[i - 1]);
+        });
+      }
     }
   },
   created() {
     this.pathOfElevator.push(this.startFloor);
+    this.duration = 1;
   },
   methods: {
     clickButton(floor) {
       if (!this.pathOfElevator.includes(floor)) {
         this.pathOfElevator.push(floor);
       }
+    },
+    onTransitionStart() {
+      this.stateOfElevator = 'move';
+    },
+    onTransitionEnd() {
+      setTimeout(() => {
+        this.stateOfElevator = 'ready';
+      }, 3000);
+      this.stateOfElevator = 'rest';
     }
   }
 };
