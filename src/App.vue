@@ -49,7 +49,8 @@ export default {
       numberOfShafts: 1,
       startFloor: 1,
       pathOfElevator: [],
-      step: 0
+      step: 0,
+      duration: 1
     };
   },
   computed: {
@@ -58,14 +59,21 @@ export default {
     },
     elevatorMove() {
       return {
-        bottom: `${this.step * this.stepSize}%`
+        transform: `translateY(${-this.step * 100}%)`,
+        transition: `transform ${this.duration}s linear 0s`
       };
-    },
-    postiton() {
-      return this.step * this.stepSize - this.stepSize;
     },
     stepSize() {
       return `${100 / this.numberOfFloors}`;
+    }
+  },
+  watch: {
+    pathOfElevator() {
+      this.pathOfElevator.forEach((currentFloor, i, array) => {
+        this.startFloor = currentFloor;
+        this.step = currentFloor - 1;
+        this.duration = Math.abs(this.startFloor - array[i - 1]);
+      });
     }
   },
   created() {
@@ -75,8 +83,6 @@ export default {
     clickButton(floor) {
       if (!this.pathOfElevator.includes(floor)) {
         this.pathOfElevator.push(floor);
-        this.startFloor = floor;
-        this.step = floor - 1;
       }
     }
   }
