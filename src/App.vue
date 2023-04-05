@@ -15,6 +15,7 @@
           <div
             class="elevator"
             :style="elevatorMove"
+            :class="{ elevator_flash: isRest }"
             @transitionstart="onTransitionStart"
             @transitionend="onTransitionEnd"
           >
@@ -56,7 +57,9 @@ export default {
       pathOfElevator: [],
       step: 0,
       duration: null,
-      stateOfElevator: 'ready'
+      stateOfElevator: 'ready',
+      opacity: 1,
+      isRest: false
     };
   },
   computed: {
@@ -66,7 +69,8 @@ export default {
     elevatorMove() {
       return {
         transform: `translateY(${-this.step * 100}%)`,
-        transition: `transform ${this.duration}s linear 0s`
+        transition: `all ${this.duration}s linear 0s`,
+        opacity: `${this.opacity}`
       };
     },
     stepSize() {
@@ -100,8 +104,10 @@ export default {
     onTransitionEnd() {
       setTimeout(() => {
         this.stateOfElevator = 'ready';
+        this.isRest = false;
       }, 3000);
       this.stateOfElevator = 'rest';
+      this.isRest = true;
     }
   }
 };
@@ -147,6 +153,27 @@ export default {
   height: $floorHeight;
   position: absolute;
   background-color: $elevatorColor;
+  &_flash {
+    animation: flash 3s linear infinite;
+  }
+}
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .floors {
