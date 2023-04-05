@@ -15,7 +15,7 @@
           <div
             class="elevator"
             :style="elevatorMove"
-            :class="{ elevator_flash: isRest }"
+            :class="{ elevator_flash: stateOfElevator === 'rest' }"
             @transitionstart="onTransitionStart"
             @transitionend="onTransitionEnd"
           >
@@ -57,9 +57,7 @@ export default {
       pathOfElevator: [],
       step: 0,
       duration: null,
-      stateOfElevator: 'ready',
-      opacity: 1,
-      isRest: false
+      stateOfElevator: 'ready'
     };
   },
   computed: {
@@ -69,12 +67,8 @@ export default {
     elevatorMove() {
       return {
         transform: `translateY(${-this.step * 100}%)`,
-        transition: `all ${this.duration}s linear 0s`,
-        opacity: `${this.opacity}`
+        transition: `all ${this.duration}s linear 0s`
       };
-    },
-    stepSize() {
-      return `${100 / this.numberOfFloors}`;
     }
   },
   watch: {
