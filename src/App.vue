@@ -19,8 +19,19 @@
             @transitionstart="onTransitionStart"
             @transitionend="onTransitionEnd"
           >
-            {{ startFloor }}
-            {{ stateElevator }}
+            <div class="elevator__display">
+              <span class="elevator__display-floor">{{ nextFloor }}</span>
+              <span
+                v-if="stateElevator !== 'move'"
+                class="elevator__display-direction"
+                >⊙</span
+              >
+              <span
+                v-else
+                class="elevator__display-direction"
+                >{{ direction }}</span
+              >
+            </div>
           </div>
         </ul>
       </div>
@@ -53,6 +64,8 @@ export default {
     return {
       numberFloors: 5,
       numberShafts: 1,
+      currentFloor: null,
+      nextFloor: 1,
       startFloor: 1,
       queueFloors: [],
       step: 0,
@@ -61,6 +74,9 @@ export default {
     };
   },
   computed: {
+    direction() {
+      return this.nextFloor - this.currentFloor > 0 ? '↑' : '↓';
+    },
     floors() {
       return Array.from({ length: this.numberFloors }, (_, index) => index + 1);
     },
@@ -78,7 +94,6 @@ export default {
       }
     }
   },
-
   created() {
     this.queueFloors.push(this.startFloor);
     this.duration = 1;
@@ -95,11 +110,10 @@ export default {
 
     moveElevator() {
       if (this.queueFloors.length > 1) {
-        const nextFloor = this.queueFloors[1];
-        const currentFloor = this.queueFloors.shift();
-        this.step = nextFloor - 1;
-        this.duration = Math.abs(currentFloor - nextFloor);
-        console.log(this.queueFloors);
+        this.nextFloor = this.queueFloors[1];
+        this.currentFloor = this.queueFloors.shift();
+        this.step = this.nextFloor - 1;
+        this.duration = Math.abs(this.currentFloor - this.nextFloor);
       }
     },
     onTransitionStart() {
