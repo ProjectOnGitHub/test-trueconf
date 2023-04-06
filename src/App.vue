@@ -165,12 +165,28 @@ export default {
 }
 
 .elevator {
+  @include flexible(100%);
+  justify-content: center;
   width: $shaftWidth;
   height: $floorHeight;
   position: absolute;
   background-color: $elevatorColor;
+  padding: 5px;
+  box-sizing: border-box;
   &_flash {
     animation: flash 3s linear infinite;
+  }
+  &__display {
+    @include flexible(max-content);
+    background-color: $displayColor;
+    color: $textColor;
+    font-weight: bold;
+    height: max-content;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 5px;
+    gap: 10px;
+    align-items: center;
   }
 }
 
