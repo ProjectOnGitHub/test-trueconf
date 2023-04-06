@@ -3,7 +3,7 @@
     <div class="building">
       <div class="elevators">
         <ul
-          v-for="shaft in numberOfShafts"
+          v-for="shaft in numberShafts"
           :key="shaft"
           class="elevators__shaft"
         >
@@ -15,12 +15,12 @@
           <div
             class="elevator"
             :style="elevatorMove"
-            :class="{ elevator_flash: stateOfElevator === 'rest' }"
+            :class="{ elevator_flash: stateElevator === 'rest' }"
             @transitionstart="onTransitionStart"
             @transitionend="onTransitionEnd"
           >
             {{ startFloor }}
-            {{ stateOfElevator }}
+            {{ stateElevator }}
           </div>
         </ul>
       </div>
@@ -51,18 +51,18 @@
 export default {
   data() {
     return {
-      numberOfFloors: 5,
-      numberOfShafts: 1,
+      numberFloors: 5,
+      numberShafts: 1,
       startFloor: 1,
-      pathOfElevator: [],
+      queueFloors: [],
       step: 0,
       duration: null,
-      stateOfElevator: 'ready'
+      stateElevator: 'ready'
     };
   },
   computed: {
     floors() {
-      return Array.from({ length: this.numberOfFloors }, (_, index) => index + 1);
+      return Array.from({ length: this.numberFloors }, (_, index) => index + 1);
     },
     elevatorMove() {
       return {
@@ -72,9 +72,9 @@ export default {
     }
   },
   watch: {
-    pathOfElevator() {
-      if (this.stateOfElevator === 'ready') {
-        this.pathOfElevator.forEach((currentFloor, i, array) => {
+    queueFloors() {
+      if (this.stateElevator === 'ready') {
+        this.queueFloors.forEach((currentFloor, i, array) => {
           this.startFloor = currentFloor;
           this.step = currentFloor - 1;
           this.duration = Math.abs(this.startFloor - array[i - 1]);
@@ -83,24 +83,24 @@ export default {
     }
   },
   created() {
-    this.pathOfElevator.push(this.startFloor);
+    this.queueFloors.push(this.startFloor);
     this.duration = 1;
   },
   methods: {
     clickButton(floor) {
-      if (!this.pathOfElevator.includes(floor)) {
-        this.pathOfElevator.push(floor);
+      if (!this.queueFloors.includes(floor)) {
+        this.queueFloors.push(floor);
       }
     },
     onTransitionStart() {
-      this.stateOfElevator = 'move';
+      this.stateElevator = 'move';
     },
     onTransitionEnd() {
       setTimeout(() => {
-        this.stateOfElevator = 'ready';
+        this.stateElevator = 'ready';
         this.isRest = false;
       }, 3000);
-      this.stateOfElevator = 'rest';
+      this.stateElevator = 'rest';
       this.isRest = true;
     }
   }
