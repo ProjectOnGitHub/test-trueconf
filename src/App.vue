@@ -14,7 +14,7 @@
           ></li>
           <div
             class="elevator"
-            :style="elevatorMove"
+            :style="transform"
             :class="{ elevator_flash: stateElevator === 'rest' }"
             @transitionstart="onTransitionStart"
             @transitionend="onTransitionEnd"
@@ -36,7 +36,7 @@
             </span>
             <button
               class="floor__button"
-              @click="clickButton(floor)"
+              @click="addFloorToQueue(floor)"
             >
               <span class="floor__button-indicator"></span>
             </button>
@@ -64,7 +64,7 @@ export default {
     floors() {
       return Array.from({ length: this.numberFloors }, (_, index) => index + 1);
     },
-    elevatorMove() {
+    transform() {
       return {
         transform: `translateY(${-this.step * 100}%)`,
         transition: `all ${this.duration}s linear 0s`
@@ -72,24 +72,34 @@ export default {
     }
   },
   watch: {
-    queueFloors() {
+    stateElevator() {
       if (this.stateElevator === 'ready') {
-        this.queueFloors.forEach((currentFloor, i, array) => {
-          this.startFloor = currentFloor;
-          this.step = currentFloor - 1;
-          this.duration = Math.abs(this.startFloor - array[i - 1]);
-        });
+        this.moveElevator();
       }
     }
   },
+
   created() {
     this.queueFloors.push(this.startFloor);
     this.duration = 1;
   },
   methods: {
-    clickButton(floor) {
+    addFloorToQueue(floor) {
       if (!this.queueFloors.includes(floor)) {
         this.queueFloors.push(floor);
+      }
+      if (this.stateElevator === 'ready') {
+        this.moveElevator();
+      }
+    },
+
+    moveElevator() {
+      if (this.queueFloors.length > 1) {
+        const nextFloor = this.queueFloors[1];
+        const currentFloor = this.queueFloors.shift();
+        this.step = nextFloor - 1;
+        this.duration = Math.abs(currentFloor - nextFloor);
+        console.log(this.queueFloors);
       }
     },
     onTransitionStart() {
@@ -98,10 +108,8 @@ export default {
     onTransitionEnd() {
       setTimeout(() => {
         this.stateElevator = 'ready';
-        this.isRest = false;
       }, 3000);
       this.stateElevator = 'rest';
-      this.isRest = true;
     }
   }
 };
