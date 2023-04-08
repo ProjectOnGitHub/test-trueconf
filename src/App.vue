@@ -21,15 +21,14 @@
           class="configure__input"
           name="input-change-shafts"
           :min="minShafts"
-          @input="checkNumber(numberShafts)"
         />
       </label>
     </form>
     <section class="building">
       <div class="elevators">
         <ul
-          v-for="shaft in numberShafts"
-          :key="shaft"
+          v-for="shaft in shafts"
+          :key="shaft.id"
           class="elevators__shaft"
         >
           <li
@@ -105,7 +104,8 @@ export default {
       duration: null,
       stateElevator: 'ready',
       minFloors: 2,
-      minShafts: 1
+      minShafts: 1,
+      currentShaft: null
     };
   },
   computed: {
@@ -115,8 +115,17 @@ export default {
     direction() {
       return this.nextFloor - this.currentFloor > 0 ? '↑' : '↓';
     },
+
     floors() {
       return Array.from({ length: this.numberFloors }, (_, index) => index + 1);
+    },
+    shafts() {
+      return Array.from({ length: this.numberShafts }, (_, index) => ({
+        id: index + 1,
+        startFloor: 1,
+        currentFloor: null,
+        nextFloor: null
+      }));
     },
     transform() {
       return {
