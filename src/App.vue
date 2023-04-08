@@ -107,10 +107,10 @@ export default {
         this.moveElevator();
       }
     },
-
     moveElevator() {
       if (this.queueFloors.length > 1) {
-        this.nextFloor = this.queueFloors[1];
+        const [, nextFloor] = this.queueFloors;
+        this.nextFloor = nextFloor;
         this.currentFloor = this.queueFloors.shift();
         this.step = this.nextFloor - 1;
         this.duration = Math.abs(this.currentFloor - this.nextFloor);
@@ -136,12 +136,14 @@ export default {
   font-family: 'Inter', Arial, sans-serif;
   font-size: 12px;
 }
+
 .building {
   @include gridable(100%);
   grid-template-columns: max-content 1fr;
   box-sizing: border-box;
   border: 5px solid $borderColor;
 }
+
 .elevators {
   @include flexible(100%);
   gap: 15px;
@@ -216,6 +218,7 @@ export default {
   box-sizing: border-box;
   border-left: 5px solid $borderColor;
 }
+
 .floor {
   @include gridable(100%);
   align-items: center;
@@ -236,6 +239,9 @@ export default {
     height: 20px;
     border: 1px solid $borderColor;
     border-radius: 3px;
+    &_disabled {
+      background-color: red;
+    }
     &-indicator {
       height: 10px;
       width: 10px;
