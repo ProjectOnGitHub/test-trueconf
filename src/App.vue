@@ -258,11 +258,12 @@ export default {
       box-sizing: border-box;
       border: 1px solid $borderColor;
       background-color: rgba($buttonColorDefault, 0.5);
-      &_active {
-        background-color: rgba($buttonColorActive, 0.5);
+      transition: all 0.5s linear;
+      &:hover {
+        background-color: rgba($buttonColorDisable, 0.5);
       }
       &_disabled {
-        background-color: red;
+        background-color: rgba($buttonColorDisable, 1);
       }
     }
   }
