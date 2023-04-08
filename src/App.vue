@@ -1,6 +1,31 @@
 <template>
   <main class="main">
-    <div class="building">
+    <form class="configure">
+      <label class="configure__label">
+        Change Floors
+        <input
+          id="id-change-floors"
+          v-model.number="numberFloors"
+          type="number"
+          :min="minFloors"
+          class="configure__input"
+          name="input-change-floors"
+        />
+      </label>
+      <label class="configure__label">
+        Change shafts
+        <input
+          id="id-change-shafts"
+          v-model.number="numberShafts"
+          type="number"
+          class="configure__input"
+          name="input-change-shafts"
+          :min="minShafts"
+          @input="checkNumber(numberShafts)"
+        />
+      </label>
+    </form>
+    <section class="building">
       <div class="elevators">
         <ul
           v-for="shaft in numberShafts"
@@ -62,7 +87,7 @@
           </div>
         </li>
       </ul>
-    </div>
+    </section>
   </main>
 </template>
 
@@ -78,7 +103,9 @@ export default {
       queueFloors: [],
       step: 0,
       duration: null,
-      stateElevator: 'ready'
+      stateElevator: 'ready',
+      minFloors: 2,
+      minShafts: 1
     };
   },
   computed: {
@@ -112,13 +139,12 @@ export default {
     this.queueFloors.push(this.startFloor);
     this.duration = 1;
   },
+
   methods: {
     setStartFloor() {
       const [newStartFloor] = this.queueFloors;
       this.startFloor = newStartFloor;
-      console.log(this.startFloor);
     },
-
     addFloorToQueue(floor) {
       if (!this.queueFloors.includes(floor)) {
         this.queueFloors.push(floor);
@@ -151,10 +177,23 @@ export default {
 
 <style lang="scss" scoped>
 .main {
+  @include gridable(100%);
+  gap: 15px;
   box-sizing: border-box;
   padding: 15px;
   font-family: 'Inter', Arial, sans-serif;
   font-size: 12px;
+}
+.configure {
+  @include flexible(100%);
+  flex-direction: column;
+  gap: 5px;
+  box-sizing: border-box;
+  &__label {
+    @include flexible(100%);
+    align-items: center;
+    gap: 10px;
+  }
 }
 
 .building {
