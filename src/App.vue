@@ -47,9 +47,15 @@
             </span>
             <button
               class="floor__button"
+              :disabled="isFloorDisabled(floor)"
               @click="addFloorToQueue(floor)"
             >
-              <span class="floor__button-indicator"></span>
+              <span
+                class="floor__button-indicator"
+                :class="{
+                  'floor__button-indicator_disabled': isFloorDisabled(floor)
+                }"
+              ></span>
             </button>
           </div>
         </li>
@@ -74,6 +80,9 @@ export default {
     };
   },
   computed: {
+    isFloorDisabled() {
+      return floor => this.queueFloors.includes(floor) && this.stateElevator !== 'ready';
+    },
     direction() {
       return this.nextFloor - this.currentFloor > 0 ? '↑' : '↓';
     },
@@ -239,8 +248,8 @@ export default {
     height: 20px;
     border: 1px solid $borderColor;
     border-radius: 3px;
-    &_disabled {
-      background-color: red;
+    &:disabled {
+      cursor: default;
     }
     &-indicator {
       height: 10px;
@@ -251,6 +260,9 @@ export default {
       background-color: rgba($buttonColorDefault, 0.5);
       &_active {
         background-color: rgba($buttonColorActive, 0.5);
+      }
+      &_disabled {
+        background-color: red;
       }
     }
   }
