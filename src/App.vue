@@ -103,6 +103,9 @@ export default {
       if (this.stateElevator === 'ready') {
         this.moveElevator();
       }
+    },
+    queueFloors() {
+      return this.setStartFloor();
     }
   },
   created() {
@@ -110,6 +113,12 @@ export default {
     this.duration = 1;
   },
   methods: {
+    setStartFloor() {
+      const [newStartFloor] = this.queueFloors;
+      this.startFloor = newStartFloor;
+      console.log(this.startFloor);
+    },
+
     addFloorToQueue(floor) {
       if (!this.queueFloors.includes(floor)) {
         this.queueFloors.push(floor);
