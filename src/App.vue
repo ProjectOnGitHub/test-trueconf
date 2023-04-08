@@ -24,13 +24,15 @@
               <span
                 v-if="stateElevator !== 'move'"
                 class="elevator__display-direction"
-                >⊙</span
               >
+                ⊙
+              </span>
               <span
                 v-else
                 class="elevator__display-direction"
-                >{{ direction }}</span
               >
+                {{ direction }}
+              </span>
             </div>
           </div>
         </ul>
