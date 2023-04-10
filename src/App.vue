@@ -25,29 +25,15 @@
             :key="floor"
             class="elevators__shaft-item"
           ></li>
-          <div
-            class="elevator"
-            :style="transform"
+          <elevator-cabine
+            :transform="transform"
             :class="{ elevator_flash: stateElevator === 'rest' }"
-            @transitionstart="onTransitionStart"
-            @transitionend="onTransitionEnd"
-          >
-            <div class="elevator__display">
-              <span class="elevator__display-floor">{{ nextFloor }}</span>
-              <span
-                v-if="stateElevator !== 'move'"
-                class="elevator__display-direction"
-              >
-                ⊙
-              </span>
-              <span
-                v-else
-                class="elevator__display-direction"
-              >
-                {{ direction }}
-              </span>
-            </div>
-          </div>
+            :next-floor="nextFloor"
+            :state="stateElevator"
+            :direction="direction"
+            @transition-start="onTransitionStart"
+            @transition-end="onTransitionEnd"
+          />
         </ul>
       </div>
       <ul class="floors">
@@ -80,7 +66,10 @@
 </template>
 
 <script>
+import ElevatorCabine from './components/ElevatorCabine.vue';
+
 export default {
+  components: { ElevatorCabine },
   data() {
     return {
       numberFloors: 5,
@@ -213,50 +202,6 @@ export default {
         border-bottom: none;
       }
     }
-  }
-}
-
-.elevator {
-  @include flexible(100%);
-  justify-content: center;
-  width: $shaftWidth;
-  height: $floorHeight;
-  position: absolute;
-  background-color: $elevatorColor;
-  padding: 5px;
-  box-sizing: border-box;
-  &_flash {
-    animation: flash 3s linear infinite;
-  }
-  &__display {
-    @include flexible(max-content);
-    background-color: $displayColor;
-    color: $textColor;
-    font-weight: bold;
-    height: max-content;
-    box-sizing: border-box;
-    border-radius: 3px;
-    padding: 5px;
-    gap: 10px;
-    align-items: center;
-  }
-}
-
-@keyframes flash {
-  0% {
-    opacity: 1;
-  }
-  25% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-  75% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
   }
 }
 
