@@ -12,17 +12,6 @@
           name="input-change-floors"
         />
       </label>
-      <label class="configure__label">
-        Change shafts
-        <input
-          id="id-change-shafts"
-          v-model.number="numberShafts"
-          type="number"
-          class="configure__input"
-          name="input-change-shafts"
-          :min="minShafts"
-        />
-      </label>
     </form>
     <section class="building">
       <div class="elevators">
@@ -103,9 +92,7 @@ export default {
       step: 0,
       duration: null,
       stateElevator: 'ready',
-      minFloors: 2,
-      minShafts: 1,
-      currentShaft: null
+      minFloors: 2
     };
   },
   computed: {
@@ -120,12 +107,7 @@ export default {
       return Array.from({ length: this.numberFloors }, (_, index) => index + 1);
     },
     shafts() {
-      return Array.from({ length: this.numberShafts }, (_, index) => ({
-        id: index + 1,
-        startFloor: 1,
-        currentFloor: null,
-        nextFloor: null
-      }));
+      return Array.from({ length: this.numberShafts }, (_, index) => index + 1);
     },
     transform() {
       return {
