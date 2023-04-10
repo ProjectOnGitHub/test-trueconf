@@ -14,16 +14,16 @@
       </label>
     </form>
     <section class="building">
-      <div class="elevators">
+      <div class="shafts">
         <ul
           v-for="shaft in shafts"
           :key="shaft.id"
-          class="elevators__shaft"
+          class="shaft"
         >
           <li
             v-for="floor in floors"
             :key="floor"
-            class="elevators__shaft-item"
+            class="shaft__item"
           ></li>
           <elevator-cabine
             :transform="transform"
@@ -183,24 +183,25 @@ export default {
   border: 5px solid $borderColor;
 }
 
-.elevators {
+.shafts {
   @include flexible(100%);
   gap: 15px;
-  &__shaft {
-    @include flexible(100%);
-    @include unmarkedList;
-    flex-direction: column-reverse;
-    border-left: 1px solid $borderColor;
-    border-right: 1px solid $borderColor;
-    position: relative;
-    &-item {
-      height: $floorHeight;
-      width: $shaftWidth;
-      box-sizing: border-box;
-      border-bottom: 1px solid $borderColor;
-      &:first-child {
-        border-bottom: none;
-      }
+}
+
+.shaft {
+  @include flexible(100%);
+  @include unmarkedList;
+  flex-direction: column-reverse;
+  border-left: 1px solid $borderColor;
+  border-right: 1px solid $borderColor;
+  position: relative;
+  &__item {
+    height: $floorHeight;
+    width: $shaftWidth;
+    box-sizing: border-box;
+    border-bottom: 1px solid $borderColor;
+    &:first-child {
+      border-bottom: none;
     }
   }
 }
