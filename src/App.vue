@@ -20,11 +20,10 @@
           :key="shaft.id"
           class="shaft"
         >
-          <li
+          <shaft-list-item
             v-for="floor in floors"
             :key="floor"
-            class="shaft__item"
-          ></li>
+          />
           <elevator-cabine
             :transform="transform"
             :class="{ elevator_flash: stateElevator === 'rest' }"
@@ -67,9 +66,10 @@
 
 <script>
 import ElevatorCabine from './components/ElevatorCabine.vue';
+import ShaftListItem from './components/ShaftListItem.vue';
 
 export default {
-  components: { ElevatorCabine },
+  components: { ElevatorCabine, ShaftListItem },
   data() {
     return {
       numberFloors: 5,
@@ -195,15 +195,6 @@ export default {
   border-left: 1px solid $borderColor;
   border-right: 1px solid $borderColor;
   position: relative;
-  &__item {
-    height: $floorHeight;
-    width: $shaftWidth;
-    box-sizing: border-box;
-    border-bottom: 1px solid $borderColor;
-    &:first-child {
-      border-bottom: none;
-    }
-  }
 }
 
 .floors {
