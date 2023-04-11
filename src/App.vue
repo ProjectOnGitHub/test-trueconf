@@ -1,18 +1,10 @@
 <template>
   <main class="main">
-    <form class="configure">
-      <label class="configure__label">
-        Change Floors
-        <input
-          id="id-change-floors"
-          v-model.number="numberFloors"
-          type="number"
-          :min="minFloors"
-          class="configure__input"
-          name="input-change-floors"
-        />
-      </label>
-    </form>
+    <the-form-configure
+      v-model.number="numberFloors"
+      :min-floors="minFloors"
+      :number-floors="numberFloors"
+    />
     <section class="building">
       <div class="shafts">
         <shaft-list
@@ -53,9 +45,10 @@ import ElevatorCabine from './components/ElevatorCabine.vue';
 import FloorItem from './components/FloorItem.vue';
 import ShaftList from './components/ShaftList.vue';
 import ShaftListItem from './components/ShaftListItem.vue';
+import TheFormConfigure from './components/TheFormConfigure.vue';
 
 export default {
-  components: { ElevatorCabine, ShaftListItem, ShaftList, FloorItem },
+  components: { ElevatorCabine, ShaftListItem, ShaftList, FloorItem, TheFormConfigure },
   data() {
     return {
       numberFloors: 5,
@@ -65,7 +58,7 @@ export default {
       startFloor: 1,
       queueFloors: [],
       step: 0,
-      duration: null,
+      duration: 1,
       stateElevator: 'ready',
       minFloors: 2
     };
@@ -103,7 +96,6 @@ export default {
   },
   created() {
     this.queueFloors.push(this.startFloor);
-    this.duration = 1;
   },
 
   methods: {
@@ -149,17 +141,6 @@ export default {
   padding: 15px;
   font-family: 'Inter', Arial, sans-serif;
   font-size: 12px;
-}
-.configure {
-  @include flexible(100%);
-  flex-direction: column;
-  gap: 5px;
-  box-sizing: border-box;
-  &__label {
-    @include flexible(100%);
-    align-items: center;
-    gap: 10px;
-  }
 }
 
 .building {
