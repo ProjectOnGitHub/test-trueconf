@@ -38,25 +38,11 @@
         <floor-item
           v-for="floor in floors"
           :key="floor"
-        >
-          <div class="floor__container">
-            <span class="floor__number">
-              {{ floor }}
-            </span>
-            <button
-              class="floor__button"
-              :disabled="isFloorDisabled(floor)"
-              @click="addFloorToQueue(floor)"
-            >
-              <span
-                class="floor__button-indicator"
-                :class="{
-                  'floor__button-indicator_disabled': isFloorDisabled(floor)
-                }"
-              ></span>
-            </button>
-          </div>
-        </floor-item>
+          :floor="floor"
+          :disabled="isFloorDisabled(floor)"
+          :button-status="{ 'floor__button-indicator_disabled': isFloorDisabled(floor) }"
+          @add-floor="addFloorToQueue(floor)"
+        />
       </ul>
     </section>
   </main>
@@ -195,46 +181,5 @@ export default {
   @include floorHeigth;
   box-sizing: border-box;
   border-left: 5px solid $borderColor;
-}
-
-.floor {
-  @include gridable(100%);
-  align-items: center;
-  height: $floorHeight;
-  box-sizing: border-box;
-  border-bottom: 1px solid $borderColor;
-  padding-left: 10px;
-  &:first-child {
-    border-bottom: none;
-  }
-  &__container {
-    @include gridable(max-content);
-    gap: 5px;
-  }
-  &__button {
-    @include flexible(20px);
-    @include button;
-    height: 20px;
-    border: 1px solid $borderColor;
-    border-radius: 3px;
-    &:disabled {
-      cursor: default;
-    }
-    &-indicator {
-      height: 10px;
-      width: 10px;
-      border-radius: 50%;
-      box-sizing: border-box;
-      border: 1px solid $borderColor;
-      background-color: rgba($buttonColorDefault, 0.5);
-      transition: all 0.5s linear;
-      &:hover {
-        background-color: rgba($buttonColorDisable, 0.5);
-      }
-      &_disabled {
-        background-color: rgba($buttonColorDisable, 1);
-      }
-    }
-  }
 }
 </style>
