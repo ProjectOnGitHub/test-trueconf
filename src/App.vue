@@ -15,10 +15,9 @@
     </form>
     <section class="building">
       <div class="shafts">
-        <ul
+        <shaft-list
           v-for="shaft in shafts"
           :key="shaft.id"
-          class="shaft"
         >
           <shaft-list-item
             v-for="floor in floors"
@@ -33,13 +32,12 @@
             @transition-start="onTransitionStart"
             @transition-end="onTransitionEnd"
           />
-        </ul>
+        </shaft-list>
       </div>
       <ul class="floors">
-        <li
+        <floor-item
           v-for="floor in floors"
           :key="floor"
-          class="floor"
         >
           <div class="floor__container">
             <span class="floor__number">
@@ -58,7 +56,7 @@
               ></span>
             </button>
           </div>
-        </li>
+        </floor-item>
       </ul>
     </section>
   </main>
@@ -66,10 +64,12 @@
 
 <script>
 import ElevatorCabine from './components/ElevatorCabine.vue';
+import FloorItem from './components/FloorItem.vue';
+import ShaftList from './components/ShaftList.vue';
 import ShaftListItem from './components/ShaftListItem.vue';
 
 export default {
-  components: { ElevatorCabine, ShaftListItem },
+  components: { ElevatorCabine, ShaftListItem, ShaftList, FloorItem },
   data() {
     return {
       numberFloors: 5,
@@ -186,15 +186,6 @@ export default {
 .shafts {
   @include flexible(100%);
   gap: 15px;
-}
-
-.shaft {
-  @include flexible(100%);
-  @include unmarkedList;
-  flex-direction: column-reverse;
-  border-left: 1px solid $borderColor;
-  border-right: 1px solid $borderColor;
-  position: relative;
 }
 
 .floors {
