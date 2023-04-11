@@ -28,14 +28,7 @@ export default {
       type: Boolean,
       default: false
     },
-    status: {
-      type: Object,
-      default: null
-    },
-    state: {
-      type: String,
-      default: ''
-    },
+
     buttonStatus: {
       type: Object,
       default: null
