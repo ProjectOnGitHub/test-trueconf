@@ -1,6 +1,5 @@
 <template>
   <main class="main">
-    {{ test }}
     <the-form-configure
       v-model.number="numberFloors"
       :min-floors="minFloors"
@@ -150,14 +149,14 @@ export default {
       this.addLocalStorage();
     },
     addLocalStorage() {
-      if (localStorage.length === 0) {
-        this.numberFloors = 5;
-        this.numberShafts = 1;
-        this.queueFloors = [1];
-        this.currentFloor = 0;
-        this.nextFloor = 1;
-        this.step = 0;
-      }
+      console.log(this.$store.state);
+
+      this.$store.dispatch('getPropertyValue', 'numberFloors');
+      this.$store.dispatch('getPropertyValue', 'numberShafts');
+      this.$store.dispatch('getPropertyValue', 'currentFloor');
+      this.$store.dispatch('getPropertyValue', 'nextFloor');
+      this.$store.dispatch('getPropertyValue', 'step');
+      this.$store.dispatch('getPropertyArray', 'queueFloors');
     },
     addFloorToQueue(floor) {
       const queue = this.queueFloors;

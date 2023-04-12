@@ -3,14 +3,24 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+function getValueFromLocalStorage(key) {
+  const value = localStorage.getItem(key);
+  return value ? parseInt(value, 10) : null;
+}
+
+function getArrayFromLocalStorage(property) {
+  const array = JSON.parse(localStorage.getItem(property));
+  return array || null;
+}
+
 export default new Vuex.Store({
   state: {
-    numberFloors: parseInt(localStorage.getItem('numberFloors'), 10),
-    numberShafts: parseInt(localStorage.getItem('numberShafts'), 10),
-    currentFloor: parseInt(localStorage.getItem('currentFloor'), 10),
-    nextFloor: parseInt(localStorage.getItem('nextFloor'), 10),
-    step: parseInt(localStorage.getItem('step'), 10),
-    queueFloors: JSON.parse(localStorage.getItem('queueFloors'))
+    numberFloors: 5,
+    numberShafts: 1,
+    currentFloor: 0,
+    nextFloor: 1,
+    step: 0,
+    queueFloors: [1]
   },
   mutations: {
     SET_STATE_PROPERTY(state, { property, value }) {
@@ -23,8 +33,8 @@ export default new Vuex.Store({
       localStorage.setItem(property, parseInt(value, 10));
     },
     getPropertyValue({ commit }, property) {
-      const value = parseInt(localStorage.getItem(property), 10);
-      if (value) {
+      const value = getValueFromLocalStorage(property);
+      if (value !== null) {
         commit('SET_STATE_PROPERTY', { property, value });
       }
     },
@@ -33,8 +43,8 @@ export default new Vuex.Store({
       localStorage.setItem(property, JSON.stringify(array));
     },
     getPropertyArray({ commit }, property) {
-      const array = JSON.parse(localStorage.getItem(property));
-      if (array) {
+      const array = getArrayFromLocalStorage(property);
+      if (array !== null) {
         commit('SET_STATE_PROPERTY', { property, value: array });
       }
     }
