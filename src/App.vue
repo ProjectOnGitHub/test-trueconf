@@ -9,6 +9,14 @@
         :number="numberFloors"
         input-name="input-change-floors"
       />
+      <form-configure-input
+        v-model.number="numberShafts"
+        id-name="id-change-shafts"
+        label-name="Change Shafts"
+        :min-value="minShafts"
+        :number="numberShafts"
+        input-name="input-change-shafts"
+      />
     </the-form-configure>
     <section class="building">
       <div class="shafts">
@@ -66,7 +74,8 @@ export default {
     return {
       duration: 1,
       stateElevator: 'ready',
-      minFloors: 2
+      minFloors: 2,
+      minShafts: 1
     };
   },
   computed: {
