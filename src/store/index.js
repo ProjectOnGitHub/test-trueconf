@@ -9,6 +9,7 @@ export default new Vuex.Store({
     numberShafts: parseInt(localStorage.getItem('numberShafts'), 10),
     currentFloor: parseInt(localStorage.getItem('currentFloor'), 10),
     nextFloor: parseInt(localStorage.getItem('nextFloor'), 10),
+    step: parseInt(localStorage.getItem('step'), 10),
     queueFloors: JSON.parse(localStorage.getItem('queueFloors'))
   },
   mutations: {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     SET_NEXT_FLOOR(state, number) {
       state.nextFloor = number;
+    },
+    SET_STEP(state, number) {
+      state.step = number;
     }
   },
   actions: {
@@ -57,6 +61,16 @@ export default new Vuex.Store({
       const number = parseInt(localStorage.getItem('currentFloor'), 10);
       if (number) {
         commit('SET_CURRENT_FLOOR', number);
+      }
+    },
+    setStep({ commit }, number) {
+      commit('SET_STEP', number);
+      localStorage.setItem('step', parseInt(number, 10));
+    },
+    getStep({ commit }) {
+      const number = parseInt(localStorage.getItem('step'), 10);
+      if (number) {
+        commit('SET_STEP', number);
       }
     },
     setNextFloor({ commit }, number) {

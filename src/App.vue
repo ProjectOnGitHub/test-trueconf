@@ -52,7 +52,6 @@ export default {
   data() {
     return {
       startFloor: 1,
-      step: 0,
       duration: 1,
       stateElevator: 'ready',
       minFloors: 2
@@ -89,6 +88,14 @@ export default {
       },
       get() {
         return this.$store.state.nextFloor;
+      }
+    },
+    step: {
+      set(number) {
+        this.$store.dispatch('setStep', number);
+      },
+      get() {
+        return this.$store.state.step;
       }
     },
     queueFloors: {
@@ -137,6 +144,7 @@ export default {
       this.queueFloors = [1];
       this.currentFloor = 0;
       this.nextFloor = 1;
+      this.step = 0;
     }
   },
 
