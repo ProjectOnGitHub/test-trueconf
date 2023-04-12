@@ -133,17 +133,20 @@ export default {
     }
   },
   created() {
-    if (localStorage.length === 0) {
-      this.numberFloors = 5;
-      this.numberShafts = 1;
-      this.queueFloors = [1];
-      this.currentFloor = 0;
-      this.nextFloor = 1;
-      this.step = 0;
-    }
+    this.addLocalStorage();
   },
 
   methods: {
+    addLocalStorage() {
+      if (localStorage.length === 0) {
+        this.numberFloors = 5;
+        this.numberShafts = 1;
+        this.queueFloors = [1];
+        this.currentFloor = 0;
+        this.nextFloor = 1;
+        this.step = 0;
+      }
+    },
     addFloorToQueue(floor) {
       const queue = this.queueFloors;
       if (!queue.includes(floor)) {
