@@ -120,10 +120,10 @@ export default {
     },
 
     floors() {
-      return Array.from({ length: this.numberFloors }, (_, index) => index + 1);
+      return this.generateNumbersArray(this.numberFloors);
     },
     shafts() {
-      return Array.from({ length: this.numberShafts }, (_, index) => index + 1);
+      return this.generateNumbersArray(this.numberShafts);
     },
     transform() {
       return {
@@ -144,6 +144,9 @@ export default {
   },
 
   methods: {
+    generateNumbersArray(number) {
+      return Array.from({ length: number }, (_, index) => index + 1);
+    },
     setDefaultSettings() {
       window.localStorage.clear();
       this.addLocalStorage();
