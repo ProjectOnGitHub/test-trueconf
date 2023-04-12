@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     numberFloors: parseInt(localStorage.getItem('numberFloors'), 10),
-    numberShafts: parseInt(localStorage.getItem('numberShafts'), 10)
+    numberShafts: parseInt(localStorage.getItem('numberShafts'), 10),
+    queueFloors: JSON.parse(localStorage.getItem('queueFloors'))
   },
   mutations: {
     SET_NUMBER_FLOORS(state, number) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     SET_NUMBER_SHAFTS(state, number) {
       state.numberShafts = number;
+    },
+    SET_QUEUE_FLOORS(state, array) {
+      state.queueFloors = array;
     }
   },
   actions: {
@@ -35,6 +39,16 @@ export default new Vuex.Store({
       const number = parseInt(localStorage.getItem('numberShafts'), 10);
       if (number) {
         commit('SET_NUMBER_SHAFTS', number);
+      }
+    },
+    setQueueFloors({ commit }, array) {
+      commit('SET_QUEUE_FLOORS', array);
+      localStorage.setItem('queueFloors', JSON.stringify(array));
+    },
+    getQueueFloor({ commit }) {
+      const array = parseInt(localStorage.getItem('queueFloors'), 10);
+      if (array) {
+        commit('SET_QUEUE_FLOORS', array);
       }
     }
   },

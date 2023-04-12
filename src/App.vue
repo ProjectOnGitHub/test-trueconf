@@ -54,7 +54,6 @@ export default {
       currentFloor: null,
       nextFloor: 1,
       startFloor: 1,
-      queueFloors: [],
       step: 0,
       duration: 1,
       stateElevator: 'ready',
@@ -76,6 +75,14 @@ export default {
       },
       get() {
         return this.$store.state.numberShafts;
+      }
+    },
+    queueFloors: {
+      set(array) {
+        this.$store.dispatch('setQueueFloors', array);
+      },
+      get() {
+        return this.$store.state.queueFloors;
       }
     },
 
@@ -110,10 +117,10 @@ export default {
     }
   },
   created() {
-    this.queueFloors.push(this.startFloor);
     if (localStorage.length === 0) {
       this.numberFloors = 5;
       this.numberShafts = 1;
+      this.queueFloors = [1];
     }
   },
 
@@ -123,18 +130,22 @@ export default {
       this.startFloor = newStartFloor;
     },
     addFloorToQueue(floor) {
-      if (!this.queueFloors.includes(floor)) {
-        this.queueFloors.push(floor);
+      const queue = this.queueFloors;
+      if (!queue.includes(floor)) {
+        queue.push(floor);
+        this.queueFloors = queue;
       }
       if (this.stateElevator === 'ready') {
         this.moveElevator();
       }
     },
     moveElevator() {
-      if (this.queueFloors.length > 1) {
-        const [, nextFloor] = this.queueFloors;
+      const queue = this.queueFloors;
+      if (queue.length > 1) {
+        const [, nextFloor] = queue;
         this.nextFloor = nextFloor;
-        this.currentFloor = this.queueFloors.shift();
+        this.currentFloor = queue.shift();
+        this.queueFloors = queue;
         this.step = this.nextFloor - 1;
         this.duration = Math.abs(this.currentFloor - this.nextFloor);
       }
