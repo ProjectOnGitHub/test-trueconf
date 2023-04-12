@@ -1,11 +1,15 @@
 <template>
   <main class="main">
-    <the-form-configure
-      v-model.number="numberFloors"
-      :min-floors="minFloors"
-      :number-floors="numberFloors"
-      @click-to-button="setDefaultSettings"
-    />
+    <the-form-configure @click-to-button="setDefaultSettings">
+      <form-configure-input
+        v-model.number="numberFloors"
+        id-name="id-change-floors"
+        label-name="Change Floors"
+        :min-value="minFloors"
+        :number="numberFloors"
+        input-name="input-change-floors"
+      />
+    </the-form-configure>
     <section class="building">
       <div class="shafts">
         <shaft-list
@@ -44,12 +48,20 @@
 <script>
 import ElevatorCabine from './components/ElevatorCabine.vue';
 import FloorItem from './components/FloorItem.vue';
+import FormConfigureInput from './components/FormConfigureInput.vue';
 import ShaftList from './components/ShaftList.vue';
 import ShaftListItem from './components/ShaftListItem.vue';
 import TheFormConfigure from './components/TheFormConfigure.vue';
 
 export default {
-  components: { ElevatorCabine, ShaftListItem, ShaftList, FloorItem, TheFormConfigure },
+  components: {
+    ElevatorCabine,
+    ShaftListItem,
+    ShaftList,
+    FloorItem,
+    TheFormConfigure,
+    FormConfigureInput
+  },
   data() {
     return {
       duration: 1,

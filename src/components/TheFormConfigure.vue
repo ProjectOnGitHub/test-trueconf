@@ -1,17 +1,6 @@
 <template>
   <form class="configure">
-    <label class="configure__label">
-      Change floors
-      <input
-        id="id-change-floors"
-        type="number"
-        :value="numberFloors"
-        :min="minFloors"
-        class="configure__input"
-        name="input-change-floors"
-        @input="$emit('input', $event.target.value)"
-      />
-    </label>
+    <slot></slot>
     <button
       id="id-reset-settings-button"
       class="configure__button"
