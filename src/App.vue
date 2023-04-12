@@ -149,13 +149,10 @@ export default {
       this.addLocalStorage();
     },
     addLocalStorage() {
-      console.log(this.$store.state);
-
-      this.$store.dispatch('getPropertyValue', 'numberFloors');
-      this.$store.dispatch('getPropertyValue', 'numberShafts');
-      this.$store.dispatch('getPropertyValue', 'currentFloor');
-      this.$store.dispatch('getPropertyValue', 'nextFloor');
-      this.$store.dispatch('getPropertyValue', 'step');
+      const stateProperty = Object.keys(this.$store.state).filter(key => key !== 'queueFloors');
+      stateProperty.forEach(property => {
+        this.$store.dispatch('getPropertyValue', property);
+      });
       this.$store.dispatch('getPropertyArray', 'queueFloors');
     },
     addFloorToQueue(floor) {
