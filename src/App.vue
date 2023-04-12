@@ -1,5 +1,6 @@
 <template>
   <main class="main">
+    {{ test }}
     <the-form-configure
       v-model.number="numberFloors"
       :min-floors="minFloors"
@@ -60,49 +61,55 @@ export default {
   computed: {
     numberFloors: {
       set(number) {
-        this.$store.dispatch('setNumberFloors', number);
+        this.$store.dispatch('setPropertyValue', { property: 'numberFloors', value: number });
       },
       get() {
+        this.$store.dispatch('getPropertyValue', 'numberFloors');
         return this.$store.state.numberFloors;
       }
     },
     numberShafts: {
       set(number) {
-        this.$store.dispatch('setNumberShafts', number);
+        this.$store.dispatch('setPropertyValue', { property: 'numberShafts', value: number });
       },
       get() {
+        this.$store.dispatch('getPropertyValue', 'numberShafts');
         return this.$store.state.numberShafts;
       }
     },
     currentFloor: {
       set(number) {
-        this.$store.dispatch('setCurrentFloor', number);
+        this.$store.dispatch('setPropertyValue', { property: 'currentFloor', value: number });
       },
       get() {
+        this.$store.dispatch('getPropertyValue', 'currentFloor');
         return this.$store.state.currentFloor;
       }
     },
     nextFloor: {
       set(number) {
-        this.$store.dispatch('setNextFloor', number);
+        this.$store.dispatch('setPropertyValue', { property: 'nextFloor', value: number });
       },
       get() {
+        this.$store.dispatch('getPropertyValue', 'nextFloor');
         return this.$store.state.nextFloor;
       }
     },
     step: {
       set(number) {
-        this.$store.dispatch('setStep', number);
+        this.$store.dispatch('setPropertyValue', { property: 'step', value: number });
       },
       get() {
+        this.$store.dispatch('getPropertyValue', 'step');
         return this.$store.state.step;
       }
     },
     queueFloors: {
       set(array) {
-        this.$store.dispatch('setQueueFloors', array);
+        this.$store.dispatch('setPropertyArray', { property: 'queueFloors', array });
       },
       get() {
+        this.$store.dispatch('getPropertyArray', 'queueFloors');
         return this.$store.state.queueFloors;
       }
     },
