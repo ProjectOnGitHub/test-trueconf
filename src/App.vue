@@ -51,7 +51,6 @@ export default {
   components: { ElevatorCabine, ShaftListItem, ShaftList, FloorItem, TheFormConfigure },
   data() {
     return {
-      nextFloor: 1,
       startFloor: 1,
       step: 0,
       duration: 1,
@@ -82,6 +81,14 @@ export default {
       },
       get() {
         return this.$store.state.currentFloor;
+      }
+    },
+    nextFloor: {
+      set(number) {
+        this.$store.dispatch('setNextFloor', number);
+      },
+      get() {
+        return this.$store.state.nextFloor;
       }
     },
     queueFloors: {
@@ -129,6 +136,7 @@ export default {
       this.numberShafts = 1;
       this.queueFloors = [1];
       this.currentFloor = 0;
+      this.nextFloor = 1;
     }
   },
 
