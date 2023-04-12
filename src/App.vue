@@ -51,7 +51,6 @@ export default {
   components: { ElevatorCabine, ShaftListItem, ShaftList, FloorItem, TheFormConfigure },
   data() {
     return {
-      numberFloors: 5,
       numberShafts: 1,
       currentFloor: null,
       nextFloor: 1,
@@ -64,6 +63,15 @@ export default {
     };
   },
   computed: {
+    numberFloors: {
+      set(number) {
+        this.$store.dispatch('setNumberFloors', number);
+      },
+      get() {
+        return this.$store.state.numberFloors;
+      }
+    },
+
     isFloorDisabled() {
       return floor => this.queueFloors.includes(floor) && this.stateElevator !== 'ready';
     },
@@ -96,9 +104,15 @@ export default {
   },
   created() {
     this.queueFloors.push(this.startFloor);
+    if (localStorage.length === 0) {
+      this.numberFloors = 5;
+    }
   },
 
   methods: {
+    setNumber(number) {
+      this.$store.dispatch('setNumberFloors', number);
+    },
     setStartFloor() {
       const [newStartFloor] = this.queueFloors;
       this.startFloor = newStartFloor;

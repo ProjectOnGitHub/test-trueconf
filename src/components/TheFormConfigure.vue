@@ -1,7 +1,7 @@
 <template>
   <form class="configure">
     <label class="configure__label">
-      Change Floors
+      Change floors
       <input
         id="id-change-floors"
         type="number"
