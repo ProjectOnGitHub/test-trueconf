@@ -149,7 +149,6 @@ export default {
     },
     setDefaultSettings() {
       window.localStorage.clear();
-      this.addLocalStorage();
     },
     addLocalStorage() {
       const stateProperty = Object.keys(this.$store.state).filter(key => key !== 'queueFloors');
