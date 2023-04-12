@@ -4,6 +4,7 @@
       v-model.number="numberFloors"
       :min-floors="minFloors"
       :number-floors="numberFloors"
+      @click-to-button="setDefaultSettings"
     />
     <section class="building">
       <div class="shafts">
@@ -137,6 +138,10 @@ export default {
   },
 
   methods: {
+    setDefaultSettings() {
+      window.localStorage.clear();
+      this.addLocalStorage();
+    },
     addLocalStorage() {
       if (localStorage.length === 0) {
         this.numberFloors = 5;

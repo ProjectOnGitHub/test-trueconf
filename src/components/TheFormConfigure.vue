@@ -12,6 +12,14 @@
         @input="$emit('input', $event.target.value)"
       />
     </label>
+    <button
+      id="id-reset-settings-button"
+      class="configure__button"
+      name="reset-settings-button"
+      @click="$emit('click-to-button')"
+    >
+      Reset to default
+    </button>
   </form>
 </template>
 
@@ -32,14 +40,27 @@ export default {
 
 <style lang="scss" scoped>
 .configure {
-  @include flexible(100%);
+  @include flexible(max-content);
   flex-direction: column;
-  gap: 5px;
+  justify-items: right;
+  gap: 15px;
   box-sizing: border-box;
   &__label {
     @include flexible(100%);
-    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid $borderColor;
+    padding: 15px;
+    border-radius: 5px;
+    flex-direction: column;
     gap: 10px;
+  }
+  &__button {
+    @include flexible(max-content);
+    @include button;
+    padding: 5px;
+    border: 1px solid $borderColor;
+    border-radius: 5px;
+    align-self: flex-end;
   }
 }
 </style>
