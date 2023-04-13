@@ -348,7 +348,10 @@ var render = function render() {
     staticClass: "main"
   }, [_c("the-form-configure", {
     on: {
-      "click-to-button": _vm.setDefaultSettings
+      "click-to-button": function clickToButton($event) {
+        $event.preventDefault();
+        return _vm.setDefaultSettings.apply(null, arguments);
+      }
     }
   }, [_c("form-configure-input", {
     attrs: {
