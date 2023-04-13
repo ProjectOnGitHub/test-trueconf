@@ -159,6 +159,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     },
     setDefaultSettings: function setDefaultSettings() {
       window.localStorage.clear();
+      this.$store.dispatch('resetState');
     },
     addLocalStorage: function addLocalStorage() {
       var _this2 = this;
@@ -348,10 +349,7 @@ var render = function render() {
     staticClass: "main"
   }, [_c("the-form-configure", {
     on: {
-      "click-to-button": function clickToButton($event) {
-        $event.preventDefault();
-        return _vm.setDefaultSettings.apply(null, arguments);
-      }
+      "click-to-button": _vm.setDefaultSettings
     }
   }, [_c("form-configure-input", {
     attrs: {
@@ -607,10 +605,12 @@ var render = function render() {
     staticClass: "configure__button",
     attrs: {
       id: "id-reset-settings-button",
+      type: "button",
       name: "reset-settings-button"
     },
     on: {
       click: function click($event) {
+        $event.preventDefault();
         return _vm.$emit("click-to-button");
       }
     }
@@ -652,6 +652,14 @@ function getArrayFromLocalStorage(property) {
     queueFloors: [1]
   },
   mutations: {
+    RESET_STATE: function RESET_STATE(state) {
+      state.numberFloors = 5;
+      state.numberShafts = 1;
+      state.currentFloor = 0;
+      state.nextFloor = 1;
+      state.step = 0;
+      state.queueFloors = [1];
+    },
     SET_STATE_PROPERTY: function SET_STATE_PROPERTY(state, _ref) {
       var property = _ref.property,
         value = _ref.value;
@@ -659,18 +667,22 @@ function getArrayFromLocalStorage(property) {
     }
   },
   actions: {
-    setPropertyValue: function setPropertyValue(_ref2, _ref3) {
+    resetState: function resetState(_ref2) {
       var commit = _ref2.commit;
-      var property = _ref3.property,
-        value = _ref3.value;
+      commit('RESET_STATE');
+    },
+    setPropertyValue: function setPropertyValue(_ref3, _ref4) {
+      var commit = _ref3.commit;
+      var property = _ref4.property,
+        value = _ref4.value;
       commit('SET_STATE_PROPERTY', {
         property: property,
         value: value
       });
       localStorage.setItem(property, parseInt(value, 10));
     },
-    getPropertyValue: function getPropertyValue(_ref4, property) {
-      var commit = _ref4.commit;
+    getPropertyValue: function getPropertyValue(_ref5, property) {
+      var commit = _ref5.commit;
       var value = getValueFromLocalStorage(property);
       if (value !== null) {
         commit('SET_STATE_PROPERTY', {
@@ -679,18 +691,18 @@ function getArrayFromLocalStorage(property) {
         });
       }
     },
-    setPropertyArray: function setPropertyArray(_ref5, _ref6) {
-      var commit = _ref5.commit;
-      var property = _ref6.property,
-        array = _ref6.array;
+    setPropertyArray: function setPropertyArray(_ref6, _ref7) {
+      var commit = _ref6.commit;
+      var property = _ref7.property,
+        array = _ref7.array;
       commit('SET_STATE_PROPERTY', {
         property: property,
         value: array
       });
       localStorage.setItem(property, JSON.stringify(array));
     },
-    getPropertyArray: function getPropertyArray(_ref7, property) {
-      var commit = _ref7.commit;
+    getPropertyArray: function getPropertyArray(_ref8, property) {
+      var commit = _ref8.commit;
       var array = getArrayFromLocalStorage(property);
       if (array !== null) {
         commit('SET_STATE_PROPERTY', {
