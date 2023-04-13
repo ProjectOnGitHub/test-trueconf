@@ -9,14 +9,6 @@
         :number="numberFloors"
         input-name="input-change-floors"
       />
-      <form-configure-input
-        v-model.number="numberShafts"
-        id-name="id-change-shafts"
-        label-name="Change Shafts"
-        :min-value="minShafts"
-        :number="numberShafts"
-        input-name="input-change-shafts"
-      />
     </the-form-configure>
     <section class="building">
       <div class="shafts">
