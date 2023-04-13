@@ -162,6 +162,7 @@ export default {
     },
     setDefaultSettings() {
       window.localStorage.clear();
+      this.$store.dispatch('resetState');
     },
     addLocalStorage() {
       const stateProperty = Object.keys(this.$store.state).filter(key => key !== 'queueFloors');

@@ -3,9 +3,10 @@
     <slot></slot>
     <button
       id="id-reset-settings-button"
+      type="button"
       class="configure__button"
       name="reset-settings-button"
-      @click="$emit('click-to-button')"
+      @click.prevent="$emit('click-to-button')"
     >
       Reset to default
     </button>

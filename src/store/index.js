@@ -23,11 +23,22 @@ export default new Vuex.Store({
     queueFloors: [1]
   },
   mutations: {
+    RESET_STATE(state) {
+      state.numberFloors = 5;
+      state.numberShafts = 1;
+      state.currentFloor = 0;
+      state.nextFloor = 1;
+      state.step = 0;
+      state.queueFloors = [1];
+    },
     SET_STATE_PROPERTY(state, { property, value }) {
       state[property] = value;
     }
   },
   actions: {
+    resetState({ commit }) {
+      commit('RESET_STATE');
+    },
     setPropertyValue({ commit }, { property, value }) {
       commit('SET_STATE_PROPERTY', { property, value });
       localStorage.setItem(property, parseInt(value, 10));
